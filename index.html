@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Фильтры и аналитика</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Контент вкладок -->
+    <div class="tab-content active" id="filters-tab">
+        <div class="filter-card" onclick="openFilterModal()">
+            <div class="filter-header">
+                <div class="filter-title">Основной фильтр</div>
+            </div>
+            <div class="filter-preview" id="filter-preview">
+                Нажмите, чтобы настроить параметры
+            </div>
+        </div>
+    </div>
+
+    <div class="tab-content" id="analytics-tab">
+        <div class="empty-state">
+            <h3>Раздел в разработке</h3>
+            <p>Здесь скоро появится аналитика</p>
+        </div>
+    </div>
+
+    <div class="tab-content" id="profile-tab">
+        <div class="welcome-section">
+            <h1 class="welcome-title">Добро пожаловать!</h1>
+            <p>Рады видеть вас в личном кабинете</p>
+        </div>
+    </div>
+
+    <!-- Модальное окно настройки фильтра -->
+    <div class="modal" id="filter-modal">
+        <div class="modal-content">
+            <h2 style="margin-bottom: 20px;">Настройка фильтра</h2>
+            
+            <div class="range-group">
+                <label class="range-label">Максимальная цена (руб)</label>
+                <input type="number" class="range-input" id="price-max" placeholder="Максимальная цена" value="1000">
+            </div>
+
+            <div class="range-group">
+                <label class="range-label">Минимальный зазор (мм)</label>
+                <input type="number" class="range-input" id="zazor-min" placeholder="Минимальный зазор" value="100">
+            </div>
+
+            <div style="margin: 20px 0;">
+                <label class="range-label">Локация</label>
+                <div id="locations-accordion">
+                    <!-- Аккордеон будет сгенерирован через JavaScript -->
+                </div>
+            </div>
+
+            <div class="modal-actions">
+                <button class="btn btn-secondary" onclick="closeFilterModal()">Отмена</button>
+                <button class="btn btn-primary" onclick="saveFilterSettings()">Сохранить</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Навигация -->
+    <div class="tab-navigation">
+        <button class="tab-button active" onclick="switchTab('filters-tab', this)">Фильтры</button>
+        <button class="tab-button" onclick="switchTab('analytics-tab', this)">Аналитика</button>
+        <button class="tab-button" onclick="switchTab('profile-tab', this)">Кабинет</button>
+    </div>
+
+    <script src="data/locations.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/filters.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
