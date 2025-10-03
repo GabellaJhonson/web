@@ -32,7 +32,7 @@ function setActiveFilterId(filterId) {
 function ensureDefaultFilter() {
     const filters = loadFilters();
     if (filters.length === 0) {
-        const defaultFilter = createFilterObject('Основной фильтр');
+        const defaultFilter = createFilterObject('Айфоны с зазором по всей РБ');
         saveFilters([defaultFilter]);
         setActiveFilterId(defaultFilter.id);
         return [defaultFilter];
@@ -43,13 +43,13 @@ function ensureDefaultFilter() {
 function createFilterObject(name) {
     return {
         id: Date.now(),
-        name: name || 'Новый фильтр',
+        name: name || 'Айфоны в Минске',
         numeric_ranges: {
-            price: { max: 1000 },
+            price: { max: 5000 },
             zazor: { min: 100 }
         },
         categorical: {
-            location: { values: ["Минск (все районы)", "Минская область (вся)"] }
+            location: { values: ["Вся Беларусь"] }
         }
     };
 }
@@ -94,7 +94,7 @@ function renderFiltersList() {
         if (isActive) {
             const activeLabel = document.createElement('span');
             activeLabel.className = 'filter-active-label';
-            activeLabel.textContent = 'Active ';
+            activeLabel.textContent = 'Active   ';
             right.appendChild(activeLabel);
         }
         right.appendChild(radio);
