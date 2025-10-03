@@ -94,7 +94,7 @@ function renderFiltersList() {
         if (isActive) {
             const activeLabel = document.createElement('span');
             activeLabel.className = 'filter-active-label';
-            activeLabel.textContent = 'Active   ';
+            activeLabel.textContent = 'Active';
             right.appendChild(activeLabel);
         }
         right.appendChild(radio);
