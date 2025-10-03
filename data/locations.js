@@ -1,6 +1,14 @@
 // Данные по локациям Беларуси
 const locationsData = [
     {
+        name: "Вся Беларусь",
+        type: "city",
+        districts: [
+            "Вся Беларусь"
+        ]
+    },
+
+    {
         name: "Минск",
         type: "city",
         districts: [

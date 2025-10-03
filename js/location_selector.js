@@ -1,17 +1,26 @@
 (function(){
     function byRegion() {
-        const result = [];
-        // First synthetic entry: all Belarus if needed
-        result.push({ id: 'all', name: 'Вся Беларусь', cities: [] });
-        locationsData.forEach(loc => {
+        return locationsData.map(loc => {
             if (loc.type === 'city') {
-                result.push({ id: 'minsk', name: 'Минск', cities: loc.districts || [] });
+                return {
+                    id: loc.name.toLowerCase(),
+                    name: loc.name,
+                    cities: loc.districts || []
+                };
             } else if (loc.type === 'region') {
-                const id = loc.name.toLowerCase();
-                result.push({ id, name: loc.name, cities: loc.cities || [] });
+                return {
+                    id: loc.name.toLowerCase(),
+                    name: loc.name,
+                    cities: loc.cities || []
+                };
+            } else {
+                return {
+                    id: loc.name.toLowerCase(),
+                    name: loc.name,
+                    cities: []
+                };
             }
         });
-        return result;
     }
 
     function createTag(text, onDelete){
@@ -31,7 +40,7 @@
         const DATA = byRegion();
         const state = {
             selected: new Map(), // key 'region:city'
-            activeRegionId: DATA[0]?.id || 'all',
+            activeRegionId: DATA[0]?.id || null,
             onApply: null
         };
 
@@ -54,18 +63,29 @@
         header.style.display = 'flex';
         header.style.justifyContent = 'space-between';
         header.style.alignItems = 'center';
-        const rightTitle = document.createElement('strong'); rightTitle.textContent = 'Вся Беларусь';
-        const countText = document.createElement('div'); countText.style.color = '#666'; countText.style.fontSize = '13px'; countText.textContent = '0 выбранных';
-        header.appendChild(rightTitle); header.appendChild(countText);
+        const rightTitle = document.createElement('strong'); 
+        rightTitle.textContent = DATA[0]?.name || '';
+        const countText = document.createElement('div'); 
+        countText.style.color = '#666'; 
+        countText.style.fontSize = '13px'; 
+        countText.textContent = '0 выбранных';
+        header.appendChild(rightTitle); 
+        header.appendChild(countText);
 
         const searchWrap = document.createElement('div'); searchWrap.className = 'ls-search';
         const search = document.createElement('input'); search.type='search'; search.placeholder='Поиск по городам...';
         searchWrap.appendChild(search);
 
-        const selectAllRow = document.createElement('div'); selectAllRow.style.display = 'none'; selectAllRow.style.fontSize = '13px'; selectAllRow.style.marginBottom = '8px'; selectAllRow.style.display='flex'; selectAllRow.style.alignItems='center'; selectAllRow.style.gap='8px';
+        const selectAllRow = document.createElement('div'); 
+        selectAllRow.style.display = 'none'; 
+        selectAllRow.style.fontSize = '13px'; 
+        selectAllRow.style.marginBottom = '8px'; 
+        selectAllRow.style.display='flex'; 
+        selectAllRow.style.alignItems='center'; 
+        selectAllRow.style.gap='8px';
         const selectAllLabel = document.createElement('label');
         const selectAll = document.createElement('input'); selectAll.type='checkbox'; selectAll.className='checkbox';
-        selectAllLabel.appendChild(selectAll); selectAllLabel.appendChild(document.createTextNode(' Выбрать всё в области'));
+        selectAllLabel.appendChild(selectAll); selectAllLabel.appendChild(document.createTextNode(' Выбрать всё'));
         selectAllRow.appendChild(selectAllLabel);
 
         const citiesList = document.createElement('div'); citiesList.className = 'ls-scroll'; citiesList.style.marginTop = '8px';
@@ -112,8 +132,8 @@
 
         function renderCities(){
             const region = getRegionById(state.activeRegionId) || DATA[0];
-            rightTitle.textContent = region.name;
-            if (region.cities && region.cities.length) {
+            rightTitle.textContent = region?.name || '';
+            if (region?.cities && region.cities.length) {
                 selectAllRow.style.display = 'flex';
                 const allSel = region.cities.every(city => state.selected.has(region.id + ':' + city));
                 selectAll.checked = allSel;
@@ -123,7 +143,7 @@
 
             const q = search.value.trim().toLowerCase();
             citiesList.innerHTML = '';
-            if (!region.cities || !region.cities.length) {
+            if (!region?.cities || !region.cities.length) {
                 const empty = document.createElement('div'); empty.style.color='#666'; empty.style.fontSize='13px'; empty.textContent='Нет городов для выбора';
                 citiesList.appendChild(empty); updateCount(); return;
             }
@@ -164,26 +184,18 @@
         search.addEventListener('input', ()=> renderCities());
 
         function getSelected(){
-            // collapse to display names based on locationsData entries
             const result = [];
             state.selected.forEach((_, key)=>{
-                const [rid, city] = key.split(':');
-                if (rid === 'minsk') result.push(city);
-                else if (rid === 'all') result.push('Вся Беларусь');
-                else {
-                    // rid is region .toLowerCase()
-                    result.push(city);
-                }
+                const [, city] = key.split(':');
+                result.push(city);
             });
             return result;
         }
 
         function open(initialValues){
             state.selected.clear();
-            // seed from initial values
             if (Array.isArray(initialValues)) {
                 initialValues.forEach(name=>{
-                    // try map name to region/city
                     DATA.forEach(region=>{
                         if (region.cities && region.cities.includes(name)) {
                             state.selected.set(region.id + ':' + name, true);
@@ -199,5 +211,3 @@
         return { open, close, onApply: fn => (state.onApply = fn) };
     };
 })();
-
-
