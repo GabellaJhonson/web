@@ -77,7 +77,8 @@ function renderFiltersList() {
         check.type = 'button';
         check.className = 'filter-activate-btn';
         check.title = 'Сделать активным';
-        check.innerText = String(activeId) === String(filter.id) ? '✅' : '☐';
+        const isActive = String(activeId) === String(filter.id);
+        check.innerText = isActive ? '✅' : '☐';
         check.onclick = (e) => {
             e.stopPropagation();
             setActiveFilterId(filter.id);
@@ -85,7 +86,17 @@ function renderFiltersList() {
         };
 
         header.appendChild(title);
-        header.appendChild(check);
+        const right = document.createElement('div');
+        right.style.display = 'flex';
+        right.style.alignItems = 'center';
+        right.appendChild(check);
+        if (isActive) {
+            const activeLabel = document.createElement('span');
+            activeLabel.className = 'filter-active-label';
+            activeLabel.innerHTML = '<span class="filter-active-dot"></span> Active';
+            right.appendChild(activeLabel);
+        }
+        header.appendChild(right);
 
         const preview = document.createElement('div');
         preview.className = 'filter-preview';

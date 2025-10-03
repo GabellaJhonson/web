@@ -75,6 +75,48 @@ body {
     cursor: pointer;
 }
 
+.filter-active-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-left: 8px;
+    color: var(--tg-theme-hint-color, #666666);
+    font-size: 12px;
+}
+
+.filter-active-dot {
+    width: 8px;
+    height: 8px;
+    background: #22c55e;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.add-filter-footer {
+    position: sticky;
+    bottom: 70px;
+    display: flex;
+    justify-content: center;
+    padding: 10px 0 0 0;
+    background: linear-gradient(to top, var(--tg-theme-bg-color, #ffffff), rgba(255,255,255,0));
+}
+
+.add-filter-button {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    border: none;
+    background: var(--tg-theme-button-color, #2481cc);
+    color: var(--tg-theme-button-text-color, #ffffff);
+    font-size: 28px;
+    line-height: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+    cursor: pointer;
+}
+
 .filter-title {
     font-weight: 600;
     font-size: 18px;

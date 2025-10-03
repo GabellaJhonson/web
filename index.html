@@ -9,12 +9,10 @@
 <body>
     <!-- Контент вкладок -->
     <div class="tab-content active" id="filters-tab">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-            <div class="filter-title">Фильтры</div>
-            <button class="btn btn-primary" style="flex: 0 0 auto; padding: 10px 14px; border-radius: 50%; width: 44px; height: 44px; display: inline-flex; align-items: center; justify-content: center;" onclick="createNewFilter()" title="Создать фильтр">+</button>
-        </div>
-
         <div id="filters-list"></div>
+        <div class="add-filter-footer">
+            <button class="add-filter-button" onclick="createNewFilter()" title="Создать фильтр">+</button>
+        </div>
     </div>
 
     <div class="tab-content" id="analytics-tab">
