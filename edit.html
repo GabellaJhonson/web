@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Редактирование фильтра</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="tab-content active" style="padding-bottom: 20px;">
+        <div class="filter-header" style="margin-top: 10px;">
+            <div class="filter-title" id="edit-title">Редактирование фильтра</div>
+            <button class="btn btn-secondary" style="flex: 0 0 auto;" onclick="goBack()">Назад</button>
+        </div>
+
+        <div class="modal-content" style="max-width: 100%; margin: 0;">
+            <div class="range-group">
+                <label class="range-label">Название</label>
+                <input type="text" class="range-input" id="filter-name" placeholder="Название фильтра">
+            </div>
+
+            <div class="range-group">
+                <label class="range-label">Максимальная цена (руб)</label>
+                <input type="number" class="range-input" id="price-max" placeholder="Максимальная цена" value="1000">
+            </div>
+
+            <div class="range-group">
+                <label class="range-label">Минимальный зазор (мм)</label>
+                <input type="number" class="range-input" id="zazor-min" placeholder="Минимальный зазор" value="100">
+            </div>
+
+            <div style="margin: 20px 0;">
+                <label class="range-label">Локация</label>
+                <div id="locations-accordion"></div>
+            </div>
+
+            <div class="modal-actions">
+                <button class="btn btn-secondary" onclick="deleteFilter()">Удалить</button>
+                <button class="btn btn-primary" onclick="saveEdit()">Сохранить</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="data/locations.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/filters.js"></script>
+    <script src="js/edit.js"></script>
+</body>
+</html>
+
+

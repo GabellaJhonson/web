@@ -1,15 +1,6 @@
 // Основной файл приложения
 
-// Данные фильтров
-let filterSettings = {
-    numeric_ranges: {
-        price: { max: 1000 },
-        zazor: { min: 100 }
-    },
-    categorical: {
-        location: { values: ["Минск (все районы)", "Минская область (вся)"] }
-    }
-};
+// Данные фильтров теперь хранятся в localStorage (см. js/filters.js)
 
 // Переключение вкладок
 function switchTab(tabId, element) {
@@ -26,18 +17,15 @@ function switchTab(tabId, element) {
 
 // Инициализация приложения
 function initApp() {
-    // Инициализируем аккордеон локаций
-    initLocationsAccordion();
-    
-    // Обновляем превью фильтра
-    updateFilterPreview();
-    
+    // Рендерим список фильтров
+    renderFiltersList();
+
     // Инициализация Telegram Web App (если используется в Telegram)
     if (window.Telegram && window.Telegram.WebApp) {
         Telegram.WebApp.ready();
         Telegram.WebApp.expand();
     }
-    
+
     console.log('Приложение инициализировано');
 }
 

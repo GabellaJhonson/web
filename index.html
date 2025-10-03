@@ -9,14 +9,12 @@
 <body>
     <!-- Контент вкладок -->
     <div class="tab-content active" id="filters-tab">
-        <div class="filter-card" onclick="openFilterModal()">
-            <div class="filter-header">
-                <div class="filter-title">Основной фильтр</div>
-            </div>
-            <div class="filter-preview" id="filter-preview">
-                Нажмите, чтобы настроить параметры
-            </div>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+            <div class="filter-title">Фильтры</div>
+            <button class="btn btn-primary" style="flex: 0 0 auto; padding: 10px 14px; border-radius: 50%; width: 44px; height: 44px; display: inline-flex; align-items: center; justify-content: center;" onclick="createNewFilter()" title="Создать фильтр">+</button>
         </div>
+
+        <div id="filters-list"></div>
     </div>
 
     <div class="tab-content" id="analytics-tab">
@@ -33,40 +31,13 @@
         </div>
     </div>
 
-    <!-- Модальное окно настройки фильтра -->
-    <div class="modal" id="filter-modal">
-        <div class="modal-content">
-            <h2 style="margin-bottom: 20px;">Настройка фильтра</h2>
-            
-            <div class="range-group">
-                <label class="range-label">Максимальная цена (руб)</label>
-                <input type="number" class="range-input" id="price-max" placeholder="Максимальная цена" value="1000">
-            </div>
-
-            <div class="range-group">
-                <label class="range-label">Минимальный зазор (мм)</label>
-                <input type="number" class="range-input" id="zazor-min" placeholder="Минимальный зазор" value="100">
-            </div>
-
-            <div style="margin: 20px 0;">
-                <label class="range-label">Локация</label>
-                <div id="locations-accordion">
-                    <!-- Аккордеон будет сгенерирован через JavaScript -->
-                </div>
-            </div>
-
-            <div class="modal-actions">
-                <button class="btn btn-secondary" onclick="closeFilterModal()">Отмена</button>
-                <button class="btn btn-primary" onclick="saveFilterSettings()">Сохранить</button>
-            </div>
-        </div>
-    </div>
+    <!-- Модальное окно больше не используется на главной -->
 
     <!-- Навигация -->
     <div class="tab-navigation">
-        <button class="tab-button active" onclick="switchTab('filters-tab', this)">Фильтры</button>
-        <button class="tab-button" onclick="switchTab('analytics-tab', this)">Аналитика</button>
-        <button class="tab-button" onclick="switchTab('profile-tab', this)">Кабинет</button>
+        <button class="tab-button active" onclick="switchTab('filters-tab', this)" aria-label="Фильтры">🔎</button>
+        <button class="tab-button" onclick="switchTab('analytics-tab', this)" aria-label="Аналитика">📊</button>
+        <button class="tab-button" onclick="switchTab('profile-tab', this)" aria-label="Кабинет">👤</button>
     </div>
 
     <script src="data/locations.js"></script>

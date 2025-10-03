@@ -1,36 +1,148 @@
-// Функции для работы с фильтрами
+// Функции для работы с фильтрами и списком
 
-// Инициализация аккордеона локаций
+const FILTERS_KEY = 'filters';
+const ACTIVE_FILTER_KEY = 'activeFilterId';
+
+function loadFilters() {
+    try {
+        const raw = localStorage.getItem(FILTERS_KEY);
+        const parsed = raw ? JSON.parse(raw) : [];
+        return Array.isArray(parsed) ? parsed : [];
+    } catch (_) {
+        return [];
+    }
+}
+
+function saveFilters(filters) {
+    localStorage.setItem(FILTERS_KEY, JSON.stringify(filters));
+}
+
+function getActiveFilterId() {
+    return localStorage.getItem(ACTIVE_FILTER_KEY);
+}
+
+function setActiveFilterId(filterId) {
+    if (filterId == null) {
+        localStorage.removeItem(ACTIVE_FILTER_KEY);
+    } else {
+        localStorage.setItem(ACTIVE_FILTER_KEY, String(filterId));
+    }
+}
+
+function ensureDefaultFilter() {
+    const filters = loadFilters();
+    if (filters.length === 0) {
+        const defaultFilter = createFilterObject('Основной фильтр');
+        saveFilters([defaultFilter]);
+        setActiveFilterId(defaultFilter.id);
+        return [defaultFilter];
+    }
+    return filters;
+}
+
+function createFilterObject(name) {
+    return {
+        id: Date.now(),
+        name: name || 'Новый фильтр',
+        numeric_ranges: {
+            price: { max: 1000 },
+            zazor: { min: 100 }
+        },
+        categorical: {
+            location: { values: ["Минск (все районы)", "Минская область (вся)"] }
+        }
+    };
+}
+
+function renderFiltersList() {
+    const container = document.getElementById('filters-list');
+    if (!container) return;
+    const filters = ensureDefaultFilter();
+    const activeId = getActiveFilterId();
+    container.innerHTML = '';
+
+    filters.forEach(filter => {
+        const card = document.createElement('div');
+        card.className = 'filter-card';
+        card.onclick = () => goToEdit(filter.id);
+
+        const header = document.createElement('div');
+        header.className = 'filter-header';
+
+        const title = document.createElement('div');
+        title.className = 'filter-title';
+        title.textContent = filter.name;
+
+        const check = document.createElement('button');
+        check.type = 'button';
+        check.className = 'filter-activate-btn';
+        check.title = 'Сделать активным';
+        check.innerText = String(activeId) === String(filter.id) ? '✅' : '☐';
+        check.onclick = (e) => {
+            e.stopPropagation();
+            setActiveFilterId(filter.id);
+            renderFiltersList();
+        };
+
+        header.appendChild(title);
+        header.appendChild(check);
+
+        const preview = document.createElement('div');
+        preview.className = 'filter-preview';
+        const price = filter.numeric_ranges.price;
+        const zazor = filter.numeric_ranges.zazor;
+        const locations = filter.categorical.location.values;
+        const locationText = locations.length > 2 ? `${locations.slice(0,2).join(', ')}...` : locations.join(', ');
+        preview.textContent = `Макс. цена: ${price.max} руб, Мин. зазор: ${zazor.min} мм, Локации: ${locationText}`;
+
+        card.appendChild(header);
+        card.appendChild(preview);
+        container.appendChild(card);
+    });
+}
+
+function createNewFilter() {
+    const name = prompt('Название фильтра', 'Новый фильтр');
+    const filters = loadFilters();
+    const filter = createFilterObject(name || 'Новый фильтр');
+    filters.push(filter);
+    saveFilters(filters);
+    setActiveFilterId(filter.id);
+    renderFiltersList();
+    goToEdit(filter.id);
+}
+
+function goToEdit(filterId) {
+    window.location.href = `edit.html?id=${encodeURIComponent(filterId)}`;
+}
+
+// Инициализация аккордеона локаций (общая, используется на странице редактирования)
 function initLocationsAccordion() {
     const container = document.getElementById('locations-accordion');
-    
+    if (!container) return;
     locationsData.forEach(location => {
         const accordionId = generateAccordionId(location.name);
-        
         const accordion = document.createElement('div');
         accordion.className = 'accordion';
-        
-        // Заголовок аккордеона
+
         const header = document.createElement('div');
         header.className = 'accordion-header';
         header.innerHTML = `${location.name} <span>▼</span>`;
         header.onclick = () => toggleAccordion(accordionId);
-        
-        // Контент аккордеона
+
         const content = document.createElement('div');
         content.className = 'accordion-content';
         content.id = accordionId;
-        
+
         const checkboxGroup = document.createElement('div');
         checkboxGroup.className = 'checkbox-group';
-        
-        // Добавляем чекбоксы в зависимости от типа локации
+
         if (location.type === 'city' && location.districts) {
             location.districts.forEach(district => {
                 checkboxGroup.appendChild(createCheckboxElement(
-                    district, 
                     district,
-                    district !== "Минск (все районы)"
+                    district,
+                    district !== 'Минск (все районы)'
                 ));
             });
         } else if (location.type === 'region' && location.cities) {
@@ -42,69 +154,10 @@ function initLocationsAccordion() {
                 ));
             });
         }
-        
+
         content.appendChild(checkboxGroup);
         accordion.appendChild(header);
         accordion.appendChild(content);
         container.appendChild(accordion);
     });
-}
-
-// Открытие модального окна фильтра
-function openFilterModal() {
-    // Заполняем поля текущими значениями
-    document.getElementById('price-max').value = filterSettings.numeric_ranges.price.max;
-    document.getElementById('zazor-min').value = filterSettings.numeric_ranges.zazor.min;
-    
-    // Сбрасываем все чекбоксы
-    document.querySelectorAll('input[name="location"]').forEach(checkbox => {
-        checkbox.checked = false;
-    });
-    
-    // Устанавливаем выбранные локации
-    filterSettings.categorical.location.values.forEach(location => {
-        const checkbox = document.querySelector(`input[name="location"][value="${location}"]`);
-        if (checkbox) {
-            checkbox.checked = true;
-        }
-    });
-    
-    document.getElementById('filter-modal').classList.add('active');
-}
-
-// Закрытие модального окна фильтра
-function closeFilterModal() {
-    document.getElementById('filter-modal').classList.remove('active');
-}
-
-// Сохранение настроек фильтра
-function saveFilterSettings() {
-    // Сохраняем числовые значения
-    filterSettings.numeric_ranges.price.max = parseInt(document.getElementById('price-max').value) || 0;
-    filterSettings.numeric_ranges.zazor.min = parseInt(document.getElementById('zazor-min').value) || 0;
-
-    // Сохраняем выбранные локации
-    const selectedLocations = Array.from(document.querySelectorAll('input[name="location"]:checked'))
-                                .map(checkbox => checkbox.value);
-    filterSettings.categorical.location.values = selectedLocations;
-
-    updateFilterPreview();
-    closeFilterModal();
-    
-    console.log("Сохраненные настройки:", JSON.stringify(filterSettings, null, 2));
-    showNotification('Настройки фильтра сохранены', 'success');
-}
-
-// Обновление превью фильтра
-function updateFilterPreview() {
-    const preview = document.getElementById('filter-preview');
-    const price = filterSettings.numeric_ranges.price;
-    const zazor = filterSettings.numeric_ranges.zazor;
-    const locations = filterSettings.categorical.location.values;
-    
-    let locationText = locations.length > 2 ? 
-        `${locations.slice(0, 2).join(', ')}...` : 
-        locations.join(', ');
-    
-    preview.textContent = `Макс. цена: ${price.max} руб, Мин. зазор: ${zazor.min} мм, Локации: ${locationText}`;
 }

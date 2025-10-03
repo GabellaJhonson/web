@@ -25,11 +25,11 @@ body {
 
 .tab-button {
     flex: 1;
-    padding: 15px 5px;
+    padding: 18px 5px;
     background: none;
     border: none;
     color: var(--tg-theme-hint-color, #999999);
-    font-size: 14px;
+    font-size: 22px;
     cursor: pointer;
     transition: all 0.3s ease;
 }
@@ -66,6 +66,13 @@ body {
     justify-content: space-between;
     align-items: center;
     margin-bottom: 15px;
+}
+
+.filter-activate-btn {
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
 }
 
 .filter-title {
