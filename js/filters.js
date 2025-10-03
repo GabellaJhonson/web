@@ -94,7 +94,7 @@ function renderFiltersList() {
         if (isActive) {
             const activeLabel = document.createElement('span');
             activeLabel.className = 'filter-active-label';
-            activeLabel.textContent = 'Active';
+            activeLabel.textContent = 'Active ';
             right.appendChild(activeLabel);
         }
         right.appendChild(radio);
@@ -129,48 +129,4 @@ function goToEdit(filterId) {
     window.location.href = `edit.html?id=${encodeURIComponent(filterId)}`;
 }
 
-// Инициализация аккордеона локаций (общая, используется на странице редактирования)
-function initLocationsAccordion() {
-    const container = document.getElementById('locations-accordion');
-    if (!container) return;
-    locationsData.forEach(location => {
-        const accordionId = generateAccordionId(location.name);
-        const accordion = document.createElement('div');
-        accordion.className = 'accordion';
-
-        const header = document.createElement('div');
-        header.className = 'accordion-header';
-        header.innerHTML = `${location.name} <span>▼</span>`;
-        header.onclick = () => toggleAccordion(accordionId);
-
-        const content = document.createElement('div');
-        content.className = 'accordion-content';
-        content.id = accordionId;
-
-        const checkboxGroup = document.createElement('div');
-        checkboxGroup.className = 'checkbox-group';
-
-        if (location.type === 'city' && location.districts) {
-            location.districts.forEach(district => {
-                checkboxGroup.appendChild(createCheckboxElement(
-                    district,
-                    district,
-                    district !== 'Минск (все районы)'
-                ));
-            });
-        } else if (location.type === 'region' && location.cities) {
-            location.cities.forEach(city => {
-                checkboxGroup.appendChild(createCheckboxElement(
-                    city,
-                    city,
-                    city !== `${location.name} (вся)`
-                ));
-            });
-        }
-
-        content.appendChild(checkboxGroup);
-        accordion.appendChild(header);
-        accordion.appendChild(content);
-        container.appendChild(accordion);
-    });
-}
+// Удален устаревший аккордеон локаций

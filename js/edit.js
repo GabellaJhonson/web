@@ -70,7 +70,7 @@
     };
 
     document.addEventListener('DOMContentLoaded', function() {
-        initLocationsAccordion();
+        // удален устаревший аккордеон
         const id = getParam('id');
         const filter = findFilterById(id);
         if (!filter) {
@@ -82,6 +82,46 @@
             fillFromFilter(created);
         } else {
             fillFromFilter(filter);
+        }
+
+        // Attach LocationSelector panel and wire to a button
+        const root = document.body;
+        const selector = LocationSelector(root);
+        selector.onApply((values)=>{
+            const currentId = getParam('id');
+            const current = findFilterById(currentId);
+            if (!current) return;
+            current.categorical.location.values = values;
+            saveFilter(current);
+            fillFromFilter(current);
+        });
+
+        // Create a button to open selector above the accordion
+        const openBtn = document.getElementById('open-location-selector');
+        const preview = document.getElementById('selected-locations-preview');
+        function renderPreview(values){
+            const text = values.length > 3 ? `${values.slice(0,3).join(', ')}...` : values.join(', ');
+            preview.textContent = text || 'Локации не выбраны';
+        }
+        if (openBtn && preview) {
+            openBtn.addEventListener('click', ()=>{
+                const currentId = getParam('id');
+                const current = findFilterById(currentId);
+                const initVals = current?.categorical?.location?.values || [];
+                selector.open(initVals);
+            });
+            // initial preview
+            const currentId = getParam('id');
+            const current = findFilterById(currentId);
+            renderPreview(current?.categorical?.location?.values || []);
+            selector.onApply((values)=>{
+                const cid = getParam('id');
+                const cur = findFilterById(cid);
+                if (!cur) return;
+                cur.categorical.location.values = values;
+                saveFilter(cur);
+                renderPreview(values);
+            });
         }
     });
 })();

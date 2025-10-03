@@ -283,3 +283,43 @@ body {
     font-size: 24px;
     margin-bottom: 10px;
 }
+
+/* Location selector (panel) */
+.ls-backdrop{
+    position: fixed;
+    inset: 0;
+    display: none;
+    align-items: flex-end;
+    justify-content: center;
+    z-index: 2000;
+    background: rgba(0,0,0,0.25);
+    padding: 0;
+}
+.ls-panel{
+    background: var(--tg-theme-bg-color, #ffffff);
+    width: 100%;
+    max-width: 760px;
+    border-radius: 12px 12px 0 0;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+    overflow: hidden;
+    display: flex;
+}
+.ls-col{ padding: 14px; }
+.ls-left{ width: 40%; max-width: 260px; border-right: 1px solid var(--tg-theme-hint-color, #efefef); }
+.ls-right{ width: 60%; max-width: calc(100% - 260px); }
+.ls-region-item, .ls-city-item{ padding:10px 8px; cursor:pointer; border-radius:8px; }
+.ls-region-item.active, .ls-city-item.active{ background: rgba(0,0,0,0.04); }
+.ls-scroll{ max-height: 60vh; overflow:auto; padding:6px 0; }
+.ls-search{ margin: 10px 0; }
+.ls-search input[type="search"]{ width:100%; padding:8px 12px; border-radius:8px; border:1px solid var(--tg-theme-hint-color, #e3e3e3); background: var(--tg-theme-secondary-bg-color, #f8f8f8); color: var(--tg-theme-text-color, #000); }
+.ls-footer{ display:flex; gap:8px; padding:12px 14px; border-top:1px solid var(--tg-theme-hint-color, #eee); justify-content:flex-end; background: var(--tg-theme-bg-color, #fff); position: sticky; bottom: 0; }
+.btn-ghost{ background:transparent; color: var(--tg-theme-button-color, #2481cc); border:1px solid var(--tg-theme-button-color, #2481cc); padding:10px 14px; border-radius:8px; cursor:pointer; }
+.btn-solid{ background: var(--tg-theme-button-color, #2481cc); color: var(--tg-theme-button-text-color, #fff); border:0; padding:10px 14px; border-radius:8px; cursor:pointer; }
+.ls-tags{ display:flex; gap:8px; flex-wrap:wrap; align-items:center; }
+.ls-tag{ display:inline-flex; gap:8px; align-items:center; padding:6px 10px; border-radius:16px; background: var(--tg-theme-secondary-bg-color, rgba(0,0,0,0.06)); border:1px solid var(--tg-theme-hint-color, rgba(0,0,0,0.08)); font-size:12px; }
+.ls-tag button{ border:0; background:transparent; cursor:pointer; padding:0; font-weight:700; }
+
+@media (max-width: 600px){
+    .ls-left{ display:none; }
+    .ls-right{ width:100%; max-width:100%; padding: 12px 14px; }
+}
