@@ -299,19 +299,19 @@ body {
     background: var(--tg-theme-bg-color, #ffffff);
     width: 100%;
     max-width: 760px;
-    border-radius: 12px 12px 0 0;
+    border-radius: 0;
     box-shadow: 0 8px 30px rgba(0,0,0,0.15);
     overflow: hidden;
     display: flex;
-    height: 94vh;
-    max-height: calc(100vh - env(safe-area-inset-top) - 8px);
+    height: 100vh;
+    max-height: calc(100vh - env(safe-area-inset-top));
 }
 .ls-col{ padding: 14px; }
 .ls-left{ width: 40%; max-width: 260px; border-right: 1px solid var(--tg-theme-hint-color, #efefef); }
 .ls-right{ width: 60%; max-width: calc(100% - 260px); }
 .ls-region-item, .ls-city-item{ padding:10px 8px; cursor:pointer; border-radius:8px; }
 .ls-region-item.active, .ls-city-item.active{ background: rgba(0,0,0,0.04); }
-.ls-scroll{ max-height: calc(94vh - 170px); overflow:auto; padding:6px 0; -webkit-overflow-scrolling: touch; overscroll-behavior: contain; }
+.ls-scroll{ max-height: calc(100vh - 200px - env(safe-area-inset-bottom)); overflow:auto; padding:6px 0; -webkit-overflow-scrolling: touch; overscroll-behavior: contain; }
 .ls-search{ margin: 10px 0; }
 .ls-search input[type="search"]{ width:100%; padding:8px 12px; border-radius:8px; border:1px solid var(--tg-theme-hint-color, #e3e3e3); background: var(--tg-theme-secondary-bg-color, #f8f8f8); color: var(--tg-theme-text-color, #000); }
 .ls-footer{ display:flex; gap:8px; padding:12px 14px; border-top:1px solid var(--tg-theme-hint-color, #eee); justify-content:flex-end; background: var(--tg-theme-bg-color, #fff); position: sticky; bottom: 0; padding-bottom: calc(12px + env(safe-area-inset-bottom)); }
@@ -324,6 +324,6 @@ body {
 @media (max-width: 600px){
     .ls-left{ display:none; }
     .ls-right{ width:100%; max-width:100%; padding: 12px 14px; }
-    .ls-panel{ height: 94vh; max-height: calc(100vh - env(safe-area-inset-top)); }
-    .ls-scroll{ max-height: calc(94vh - 160px); }
+    .ls-panel{ height: 100vh; max-height: calc(100vh - env(safe-area-inset-top)); border-radius: 0; }
+    .ls-scroll{ max-height: calc(100vh - 180px - env(safe-area-inset-bottom)); }
 }
