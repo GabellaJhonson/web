@@ -91,13 +91,13 @@ function renderFiltersList() {
         const right = document.createElement('div');
         right.style.display = 'flex';
         right.style.alignItems = 'center';
-        right.appendChild(radio);
         if (isActive) {
             const activeLabel = document.createElement('span');
             activeLabel.className = 'filter-active-label';
             activeLabel.textContent = 'Active';
             right.appendChild(activeLabel);
         }
+        right.appendChild(radio);
         header.appendChild(right);
 
         const preview = document.createElement('div');

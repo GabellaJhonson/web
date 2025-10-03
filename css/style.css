@@ -9,7 +9,7 @@ body {
     background: var(--tg-theme-bg-color, #ffffff);
     color: var(--tg-theme-text-color, #000000);
     padding: 10px;
-    padding-bottom: 70px;
+    padding-bottom: calc(70px + env(safe-area-inset-bottom));
 }
 
 .tab-navigation {
@@ -21,6 +21,7 @@ body {
     background: var(--tg-theme-bg-color, #ffffff);
     border-top: 1px solid var(--tg-theme-hint-color, #cccccc);
     z-index: 1000;
+    padding-bottom: env(safe-area-inset-bottom);
 }
 
 .tab-button {
@@ -75,8 +76,29 @@ body {
 .filter-active-radio {
     width: 18px;
     height: 18px;
-    accent-color: #22c55e;
     cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    border: 2px solid var(--tg-theme-hint-color, #bbbbbb);
+    border-radius: 50%;
+    display: inline-block;
+    position: relative;
+    background: var(--tg-theme-bg-color, #ffffff);
+}
+.filter-active-radio:checked {
+    border-color: #22c55e;
+}
+.filter-active-radio:checked::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 8px;
+    height: 8px;
+    background: #22c55e;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
 }
 
 .filter-active-label {
@@ -86,13 +108,14 @@ body {
     margin-left: 8px;
     color: var(--tg-theme-hint-color, #666666);
     font-size: 12px;
+    white-space: nowrap;
 }
 
 .filter-active-dot { display: none; }
 
 .add-filter-footer {
     position: sticky;
-    bottom: 70px;
+    bottom: calc(70px + env(safe-area-inset-bottom));
     display: flex;
     justify-content: center;
     padding: 10px 0 0 0;
@@ -111,6 +134,9 @@ body {
     padding: 14px 16px;
     box-shadow: 0 6px 16px rgba(0,0,0,0.1);
     cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
 }
 
 .filter-title {
