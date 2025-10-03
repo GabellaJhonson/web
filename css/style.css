@@ -69,9 +69,13 @@ body {
 }
 
 .filter-activate-btn {
-    background: none;
-    border: none;
-    font-size: 20px;
+    display: none;
+}
+
+.filter-active-radio {
+    width: 18px;
+    height: 18px;
+    accent-color: #22c55e;
     cursor: pointer;
 }
 
@@ -84,13 +88,7 @@ body {
     font-size: 12px;
 }
 
-.filter-active-dot {
-    width: 8px;
-    height: 8px;
-    background: #22c55e;
-    border-radius: 50%;
-    display: inline-block;
-}
+.filter-active-dot { display: none; }
 
 .add-filter-footer {
     position: sticky;
@@ -99,21 +97,19 @@ body {
     justify-content: center;
     padding: 10px 0 0 0;
     background: linear-gradient(to top, var(--tg-theme-bg-color, #ffffff), rgba(255,255,255,0));
+    z-index: 900;
 }
 
 .add-filter-button {
-    width: 52px;
-    height: 52px;
-    border-radius: 50%;
+    width: 100%;
+    border-radius: 12px;
     border: none;
     background: var(--tg-theme-button-color, #2481cc);
     color: var(--tg-theme-button-text-color, #ffffff);
-    font-size: 28px;
-    line-height: 1;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+    font-size: 16px;
+    line-height: 1.2;
+    padding: 14px 16px;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.1);
     cursor: pointer;
 }
 

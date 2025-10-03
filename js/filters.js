@@ -73,13 +73,15 @@ function renderFiltersList() {
         title.className = 'filter-title';
         title.textContent = filter.name;
 
-        const check = document.createElement('button');
-        check.type = 'button';
-        check.className = 'filter-activate-btn';
-        check.title = 'Сделать активным';
         const isActive = String(activeId) === String(filter.id);
-        check.innerText = isActive ? '✅' : '☐';
-        check.onclick = (e) => {
+
+        const radio = document.createElement('input');
+        radio.type = 'radio';
+        radio.name = 'activeFilterRadio';
+        radio.className = 'filter-active-radio';
+        radio.checked = isActive;
+        radio.title = 'Сделать активным';
+        radio.onclick = (e) => {
             e.stopPropagation();
             setActiveFilterId(filter.id);
             renderFiltersList();
@@ -89,11 +91,11 @@ function renderFiltersList() {
         const right = document.createElement('div');
         right.style.display = 'flex';
         right.style.alignItems = 'center';
-        right.appendChild(check);
+        right.appendChild(radio);
         if (isActive) {
             const activeLabel = document.createElement('span');
             activeLabel.className = 'filter-active-label';
-            activeLabel.innerHTML = '<span class="filter-active-dot"></span> Active';
+            activeLabel.textContent = 'Active';
             right.appendChild(activeLabel);
         }
         header.appendChild(right);
