@@ -21,13 +21,21 @@ function initApp() {
     renderFiltersList();
 
     // Инициализация Telegram Web App (если используется в Telegram)
-    if (window.Telegram && window.Telegram.WebApp) {
+    if (window.Telegram && Telegram.WebApp) {
         Telegram.WebApp.ready();
         Telegram.WebApp.expand();
+
+        const chatId = Telegram.WebApp.initDataUnsafe?.chat?.id;
+        if (chatId) {
+            document.getElementById('chatId').innerText = chatId;
+        } else {
+            document.getElementById('chatId').innerText = 'Не доступен';
+        }
     }
 
     console.log('Приложение инициализировано');
 }
+
 
 // Запуск приложения после загрузки DOM
 document.addEventListener('DOMContentLoaded', initApp);

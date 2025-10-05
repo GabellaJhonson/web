@@ -1,12 +1,17 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Фильтры и аналитика</title>
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
+    <!-- Отображение Chat ID -->
+    <div id="chatIdContainer" style="padding: 10px; background-color: #f0f0f0; border-radius: 5px; margin: 10px;">
+        <strong>Chat ID:</strong> <span id="chatId">Загружается...</span>
+    </div>
+
     <!-- Контент вкладок -->
     <div class="tab-content active" id="filters-tab">
         <div id="filters-list"></div>
@@ -28,8 +33,6 @@
             <p>Рады видеть вас в личном кабинете</p>
         </div>
     </div>
-
-    <!-- Модальное окно больше не используется на главной -->
 
     <!-- Навигация -->
     <div class="tab-navigation">
