@@ -151,9 +151,9 @@ body {
 
 /* Selected locations chips on edit page */
 .chip-list{ display:flex; gap:8px; flex-wrap:wrap; align-items:center; }
-.chip{ display:inline-flex; gap:8px; align-items:center; padding:6px 10px; border-radius:16px; background: var(--tg-theme-secondary-bg-color, rgba(0,0,0,0.06)); border:1px solid var(--tg-theme-hint-color, rgba(0,0,0,0.08)); font-size:12px; color: var(--tg-theme-text-color, #000000); }
-.chip-remove{ border:0; background:transparent; cursor:pointer; padding:0; font-weight:700; color:#ef4444; line-height:1; }
-.chip-remove:hover{ color:#b91c1c; }
+.chip{ display:inline-flex; gap:6px; align-items:center; padding:6px 10px; border-radius:14px; background: var(--tg-theme-secondary-bg-color, rgba(0,0,0,0.06)); border:1px solid var(--tg-theme-hint-color, rgba(0,0,0,0.08)); font-size:13px; color: var(--tg-theme-text-color, #000000); line-height:1; }
+.chip-remove{ display:inline-flex; align-items:center; justify-content:center; width:18px; height:18px; border-radius:50%; border:0; background:transparent; cursor:pointer; padding:0; font-weight:700; color:#ef4444; line-height:1; font-size:14px; }
+.chip-remove:hover{ background: rgba(239,68,68,0.12); color:#b91c1c; }
 
 .modal {
     display: none;
@@ -253,6 +253,8 @@ body {
     gap: 10px;
     margin-top: 25px;
 }
+
+.modal-actions .btn{ min-height: 44px; }
 
 .btn {
     flex: 1;
