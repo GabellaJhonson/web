@@ -106,7 +106,7 @@ function renderFiltersList() {
         const zazor = filter.numeric_ranges.zazor;
         const locations = filter.categorical.location.values;
         const locationText = locations.length > 2 ? `${locations.slice(0,2).join(', ')}...` : locations.join(', ');
-        preview.textContent = `Макс. цена: ${price.max} руб, Мин. зазор: ${zazor.min} мм, Локации: ${locationText}`;
+        preview.textContent = `Макс. цена: ${price.max} руб, Мин. зазор: ${zazor.min} руб, Локации: ${locationText}`;
 
         card.appendChild(header);
         card.appendChild(preview);
