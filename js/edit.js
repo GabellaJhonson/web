@@ -33,19 +33,49 @@
         document.getElementById('filter-name').value = filter.name;
         document.getElementById('price-max').value = filter.numeric_ranges.price.max;
         document.getElementById('zazor-min').value = filter.numeric_ranges.zazor.min;
-        document.querySelectorAll('input[name="location"]').forEach(cb => cb.checked = false);
-        filter.categorical.location.values.forEach(val => {
-            const cb = document.querySelector(`input[name="location"][value="${val}"]`);
-            if (cb) cb.checked = true;
-        });
+        renderLocationChips(filter.categorical.location.values || []);
     }
 
     function collectToFilter(filter) {
         filter.name = document.getElementById('filter-name').value || filter.name;
         filter.numeric_ranges.price.max = parseInt(document.getElementById('price-max').value) || 0;
         filter.numeric_ranges.zazor.min = parseInt(document.getElementById('zazor-min').value) || 0;
-        filter.categorical.location.values = Array.from(document.querySelectorAll('input[name="location"]:checked')).map(cb => cb.value);
+        // values already managed via chips selector
         return filter;
+    }
+
+    function renderLocationChips(values){
+        const preview = document.getElementById('selected-locations-preview');
+        if (!preview) return;
+        preview.innerHTML = '';
+        if (!Array.isArray(values) || values.length === 0){
+            const empty = document.createElement('div');
+            empty.className = 'filter-preview';
+            empty.textContent = 'Локации не выбраны';
+            preview.appendChild(empty);
+            return;
+        }
+        values.forEach((name)=>{
+            const chip = document.createElement('span');
+            chip.className = 'chip';
+            chip.textContent = name;
+            const btn = document.createElement('button');
+            btn.className = 'chip-remove';
+            btn.setAttribute('aria-label','Удалить локацию');
+            btn.textContent = '×';
+            btn.onclick = function(e){
+                e.preventDefault();
+                const id = getParam('id');
+                const filter = findFilterById(id);
+                if (!filter) return;
+                const next = (filter.categorical.location.values || []).filter(v => v !== name);
+                filter.categorical.location.values = next;
+                saveFilter(filter);
+                renderLocationChips(next);
+            };
+            chip.appendChild(btn);
+            preview.appendChild(chip);
+        });
     }
 
     window.saveEdit = function() {
@@ -96,14 +126,9 @@
             fillFromFilter(current);
         });
 
-        // Create a button to open selector above the accordion
+        // Create a button to open selector
         const openBtn = document.getElementById('open-location-selector');
-        const preview = document.getElementById('selected-locations-preview');
-        function renderPreview(values){
-            const text = values.length > 3 ? `${values.slice(0,3).join(', ')}...` : values.join(', ');
-            preview.textContent = text || 'Локации не выбраны';
-        }
-        if (openBtn && preview) {
+        if (openBtn) {
             openBtn.addEventListener('click', ()=>{
                 const currentId = getParam('id');
                 const current = findFilterById(currentId);
@@ -113,14 +138,14 @@
             // initial preview
             const currentId = getParam('id');
             const current = findFilterById(currentId);
-            renderPreview(current?.categorical?.location?.values || []);
+            renderLocationChips(current?.categorical?.location?.values || []);
             selector.onApply((values)=>{
                 const cid = getParam('id');
                 const cur = findFilterById(cid);
                 if (!cur) return;
                 cur.categorical.location.values = values;
                 saveFilter(cur);
-                renderPreview(values);
+                renderLocationChips(values);
             });
         }
     });

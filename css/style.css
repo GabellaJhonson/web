@@ -149,6 +149,12 @@ body {
     font-size: 14px;
 }
 
+/* Selected locations chips on edit page */
+.chip-list{ display:flex; gap:8px; flex-wrap:wrap; align-items:center; }
+.chip{ display:inline-flex; gap:8px; align-items:center; padding:6px 10px; border-radius:16px; background: var(--tg-theme-secondary-bg-color, rgba(0,0,0,0.06)); border:1px solid var(--tg-theme-hint-color, rgba(0,0,0,0.08)); font-size:12px; color: var(--tg-theme-text-color, #000000); }
+.chip-remove{ border:0; background:transparent; cursor:pointer; padding:0; font-weight:700; color:#ef4444; line-height:1; }
+.chip-remove:hover{ color:#b91c1c; }
+
 .modal {
     display: none;
     position: fixed;
@@ -266,6 +272,14 @@ body {
 .btn-secondary {
     background: var(--tg-theme-secondary-bg-color, #f8f8f8);
     color: var(--tg-theme-text-color, #000000);
+}
+
+.btn-danger {
+    background: #ef4444;
+    color: #ffffff;
+}
+.btn-danger:hover {
+    background: #dc2626;
 }
 
 .empty-state {
